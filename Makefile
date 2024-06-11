@@ -1,6 +1,7 @@
-CFLAGS = gcc -Wall -Wextra
+CFLAGS = gcc -Wall -Wextra -std=gnu99
+LIBSRC = lib/raylib/src
 
 default: main
 
 main: src/main.c
-	$(CFLAGS) -o bin/$@ $<
+	$(CFLAGS) -I$(LIBSRC) -o bin/$@ $<
