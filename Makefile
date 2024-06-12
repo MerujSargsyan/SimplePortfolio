@@ -1,7 +1,7 @@
 CFLAGS = gcc -Wall -Wextra -std=gnu99
 LIBSRC = lib/raylib/src
 LIBS = -L$(LIBSRC) -lraylib -lm -ldl -framework Cocoa -framework IOKit -framework CoreVideo -framework OpenGL
-LIBBUILT = 0
+LIBBUILT = 1
 
 all: main
 
@@ -14,5 +14,5 @@ ifeq ($(LIBBUILT),0)
 	$(eval LIBBUILT := 1)
 endif   
 
-run: bin/main
+run: bin/main | main
 	$<
