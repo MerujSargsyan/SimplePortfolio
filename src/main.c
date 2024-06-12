@@ -7,34 +7,65 @@
 #define WIDTH 800
 
 #define BOXSZ 500
+#define BOXOFFSET 50
 
-long get_file_size(FILE* f) {
-    fseek(f, 0, SEEK_END);
-    long file_size = ftell(f);
-    fseek(f, 0, SEEK_SET);
-    return file_size;
+Texture2D init_image(const char* imgsrc) {
+    Image img = LoadImage(imgsrc);
+    ImageResize(&img, BOXSZ - BOXOFFSET, BOXSZ - BOXOFFSET);
+
+    Texture2D texture = LoadTextureFromImage(img);
+    UnloadImage(img);
+    return texture;
+}
+
+void redraw(Texture2D texture, Rectangle rect) {
+    DrawRectangleRec(rect, BLACK);
+    //DrawTexture(texture, rect.x + BOXOFFSET/2, rect.y + BOXOFFSET/2, WHITE);
+    DrawTexture(texture, WIDTH/4 - BOXOFFSET/2, HEIGHT/4 - BOXOFFSET/2, WHITE);
+}
+
+// polarity used to scale and descale
+void scale_rect(Rectangle* rect, int should_scale) {
+    if(should_scale) {
+        rect->x = (WIDTH - BOXSZ - BOXOFFSET)/2;
+        rect->y = (WIDTH - BOXSZ - BOXOFFSET)/2;
+        rect->width = BOXSZ +  BOXOFFSET;
+        rect->height = BOXSZ + BOXOFFSET;
+    } else {
+        rect->x = (WIDTH - BOXSZ)/2;
+        rect->y = (WIDTH - BOXSZ)/2;
+        rect->width = BOXSZ;
+        rect->height = BOXSZ;
+    }
+}
+
+void mouse_input(Rectangle* rect) {
+    Vector2 mouse_pos = GetMousePosition();
+    if(CheckCollisionPointRec(mouse_pos, *rect)) {
+        scale_rect(rect, 1);
+    } else {
+        scale_rect(rect, 0);
+    }
 }
 
 int main(void) {
     InitWindow(WIDTH, HEIGHT, "Hello World");
     SetTargetFPS(30);
 
-    Image img = LoadImage("lib/images/GraphGeneratorImg.png"); 
-    ImageResize(&img, BOXSZ - 50, BOXSZ - 50);
-
-    Texture2D txture = LoadTextureFromImage(img);
-    UnloadImage(img);
+    Texture texture = init_image("lib/images/GraphGeneratorImg.png");
+    // base rectangle
+    Rectangle base_rect = {0,0,0,0};;
 
     while(!WindowShouldClose()) {
         BeginDrawing();
         {
-            Rectangle rect = {(WIDTH - BOXSZ)/2, (HEIGHT - BOXSZ)/2, BOXSZ, BOXSZ};
             ClearBackground(RAYWHITE);
-            DrawRectangleRec(rect, BLACK);
-            DrawTexture(txture, rect.x + 25, rect.y + 25, WHITE);
+            redraw(texture, base_rect);
+            mouse_input(&base_rect);
         }
         EndDrawing();
     }
+
     CloseWindow();
     return 0;
 }
