@@ -43,6 +43,9 @@ void mouse_input(Rectangle* rect) {
     Vector2 mouse_pos = GetMousePosition();
     if(CheckCollisionPointRec(mouse_pos, *rect)) {
         scale_rect(rect, 1);
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            printf("Clicked\n");
+        }
     } else {
         scale_rect(rect, 0);
     }
