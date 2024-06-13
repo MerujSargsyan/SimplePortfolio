@@ -57,7 +57,7 @@ int main(void) {
 
     Texture texture = init_image("lib/images/GraphGeneratorImg.png");
     // base rectangle
-    Rectangle base_rect = {0,0,0,0};;
+    Rectangle base_rect = {0,0,0,0};
 
     while(!WindowShouldClose()) {
         BeginDrawing();
