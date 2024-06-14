@@ -50,11 +50,8 @@ void mouse_input(Rectangle* rect) {
     if(CheckCollisionPointRec(mouse_pos, *rect)) {
         scale_rect(rect, 1);
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-            if(drawingIdx == 0) {
-                drawingIdx = 1;
-            } else {
-                drawingIdx = 0;
-            }
+           drawingIdx++;
+           if(drawingIdx> 2) drawingIdx = 0;
         }
     } else {
         scale_rect(rect, 0);
@@ -75,16 +72,20 @@ int main(void) {
     ib2.texture = init_image("lib/images/ClassicGenImg.png");
     ib2.rect = rect;
 
-    ImageBlock ibarr[] = {ib, ib2};
+    ImageBlock ib3;
+    ib3.texture = init_image("lib/images/MorseTranslatorImg.png");
+    ib3.rect = rect;
+
+    ImageBlock ibarr[] = {ib, ib2, ib3};
     int idx = 0;
 
     while(!WindowShouldClose()) {
         BeginDrawing();
         {
-            ImageBlock current = ibarr[0];
+            ImageBlock* current = ibarr + drawingIdx;
             ClearBackground(RAYWHITE);
-            redraw(current);
-            mouse_input(&(current.rect));
+            mouse_input(&(current->rect));
+            redraw(*current);
         }
         EndDrawing();
     }
