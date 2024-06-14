@@ -7,8 +7,9 @@ all: | blib
 	cd build && $(MAKE)
 
 blib:
-ifeq($(LIBFLAG),0)
+ifeq ($(LIBFLAG),0)
 	@cd lib/raylib/ && git submodule update --init && cd src && make && cd ../../../
 	$(eval LIBFLAG := 1)
+endif
 run:
 	bin/main
