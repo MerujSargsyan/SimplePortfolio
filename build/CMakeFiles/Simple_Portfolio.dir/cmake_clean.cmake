@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/Users/meruzhansargsyan/Desktop/Coding/Projects/SimplePortfolio/bin/main"
-  "/Users/meruzhansargsyan/Desktop/Coding/Projects/SimplePortfolio/bin/main.pdb"
+  "/Users/meruzhansargsyan/Desktop/Coding/Projects/SimplePortfolio/bin/Simple_Portfolio"
+  "/Users/meruzhansargsyan/Desktop/Coding/Projects/SimplePortfolio/bin/Simple_Portfolio.pdb"
   "CMakeFiles/Simple_Portfolio.dir/src/main.c.o"
   "CMakeFiles/Simple_Portfolio.dir/src/main.c.o.d"
 )

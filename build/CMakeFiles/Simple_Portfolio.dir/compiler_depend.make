@@ -80,8 +80,10 @@ CMakeFiles/Simple_Portfolio.dir/src/main.c.o: /Users/meruzhansargsyan/Desktop/Co
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include/stdarg.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include/stdbool.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include/stdint.h \
-  /Users/meruzhansargsyan/Desktop/Coding/Projects/SimplePortfolio/lib/raylib/src/raylib.h
+  _deps/raylib-src/src/raylib.h
 
+
+_deps/raylib-src/src/raylib.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/usr/include/sys/wait.h:
 
@@ -106,8 +108,6 @@ CMakeFiles/Simple_Portfolio.dir/src/main.c.o: /Users/meruzhansargsyan/Desktop/Co
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/usr/include/sys/_types/_timeval.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/usr/include/sys/_types/_sigaltstack.h:
-
-/Users/meruzhansargsyan/Desktop/Coding/Projects/SimplePortfolio/lib/raylib/src/raylib.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/usr/include/sys/_types/_seek_set.h:
 
