@@ -1,27 +1,14 @@
-CFLAGS = gcc -Wall -Wextra -std=gnu99
-LIBSRC = lib/raylib/src
-LIBS = -L$(LIBSRC) 
-LIBBUILT = 0
-SHELLTP := $(shell uname -s)
+# check if lib already downloaded
+LIBFLAG=0
 
-ifeq ($(SHELLTP), Darwin) 
-    #macOS
-    LIBS = -L$(LIBSRC) -lraylib -lm -ldl -framework Cocoa -framework IOKit -framework CoreVideo -framework OpenGL
-else
-    #Linux
-    LIBS = -L$(LIBSRC) -lraylib -lm -lpthread -ldl -lX11
-endif
+all: | blib
+	mkdir -p build
+	cd build && cmake ..
+	cd build && $(MAKE)
 
-all: main
-
-main: src/main.c | build
-	$(CFLAGS) -I$(LIBSRC) -o bin/$@ $< $(LIBS)
-
-build:
-ifeq ($(LIBBUILT),0)
-	@cd lib/raylib && git submodule update --init && cd src/ && make PLATFORM=PLATFORM_DESKTOP && cd ../../
-	$(eval LIBBUILT := 1)
-endif   
-
-run: bin/main | main
-	$<
+blib:
+ifeq($(LIBFLAG),0)
+    @cd lib/raylib/ && git submode update --init && cd src && make && cd ../../../
+    $(eval LIBFLAG := 1)
+run:
+	bin/main

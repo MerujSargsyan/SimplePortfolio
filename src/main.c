@@ -55,6 +55,8 @@ int main(void) {
     InitWindow(WIDTH, HEIGHT, "Hello World");
     SetTargetFPS(30);
 
+    printf("Updated\n");
+
     Texture texture = init_image("lib/images/GraphGeneratorImg.png");
     // base rectangle
     Rectangle base_rect = {0,0,0,0};

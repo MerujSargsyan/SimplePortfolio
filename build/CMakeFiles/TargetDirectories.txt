@@ -1,0 +1,3 @@
+/Users/meruzhansargsyan/Desktop/Coding/Projects/SimplePortfolio/build/CMakeFiles/Simple_Portfolio.dir
+/Users/meruzhansargsyan/Desktop/Coding/Projects/SimplePortfolio/build/CMakeFiles/edit_cache.dir
+/Users/meruzhansargsyan/Desktop/Coding/Projects/SimplePortfolio/build/CMakeFiles/rebuild_cache.dir
