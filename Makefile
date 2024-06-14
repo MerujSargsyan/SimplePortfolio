@@ -8,7 +8,7 @@ all: | blib
 
 blib:
 ifeq($(LIBFLAG),0)
-    @cd lib/raylib/ && git submode update --init && cd src && make && cd ../../../
-    $(eval LIBFLAG := 1)
+	@cd lib/raylib/ && git submodule update --init && cd src && make && cd ../../../
+	$(eval LIBFLAG := 1)
 run:
 	bin/main
