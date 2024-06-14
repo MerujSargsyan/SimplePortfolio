@@ -9,6 +9,13 @@
 #define BOXSZ 500
 #define BOXOFFSET 50
 
+int drawingIdx = 0;
+
+typedef struct {
+    Texture2D texture;
+    Rectangle rect;
+} ImageBlock;
+
 Texture2D init_image(const char* imgsrc) {
     Image img = LoadImage(imgsrc);
     ImageResize(&img, BOXSZ - BOXOFFSET, BOXSZ - BOXOFFSET);
@@ -18,10 +25,9 @@ Texture2D init_image(const char* imgsrc) {
     return texture;
 }
 
-void redraw(Texture2D texture, Rectangle rect) {
-    DrawRectangleRec(rect, BLACK);
-    //DrawTexture(texture, rect.x + BOXOFFSET/2, rect.y + BOXOFFSET/2, WHITE);
-    DrawTexture(texture, WIDTH/4 - BOXOFFSET/2, HEIGHT/4 - BOXOFFSET/2, WHITE);
+void redraw(ImageBlock ib) {
+    DrawRectangleRec(ib.rect, BLACK);
+    DrawTexture(ib.texture, WIDTH/4 - BOXOFFSET/2, HEIGHT/4 - BOXOFFSET/2, WHITE);
 }
 
 // polarity used to scale and descale
@@ -44,7 +50,11 @@ void mouse_input(Rectangle* rect) {
     if(CheckCollisionPointRec(mouse_pos, *rect)) {
         scale_rect(rect, 1);
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-            printf("Clicked\n");
+            if(drawingIdx == 0) {
+                drawingIdx = 1;
+            } else {
+                drawingIdx = 0;
+            }
         }
     } else {
         scale_rect(rect, 0);
@@ -55,18 +65,26 @@ int main(void) {
     InitWindow(WIDTH, HEIGHT, "Hello World");
     SetTargetFPS(30);
 
-    printf("Updated\n");
+    Rectangle rect = {0,0,0,0};
 
-    Texture texture = init_image("lib/images/GraphGeneratorImg.png");
-    // base rectangle
-    Rectangle base_rect = {0,0,0,0};
+    ImageBlock ib;
+    ib.texture = init_image("lib/images/GraphGeneratorImg.png");
+    ib.rect = rect;
+
+    ImageBlock ib2;
+    ib2.texture = init_image("lib/images/ClassicGenImg.png");
+    ib2.rect = rect;
+
+    ImageBlock ibarr[] = {ib, ib2};
+    int idx = 0;
 
     while(!WindowShouldClose()) {
         BeginDrawing();
         {
+            ImageBlock current = ibarr[0];
             ClearBackground(RAYWHITE);
-            redraw(texture, base_rect);
-            mouse_input(&base_rect);
+            redraw(current);
+            mouse_input(&(current.rect));
         }
         EndDrawing();
     }
