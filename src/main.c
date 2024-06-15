@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include <raylib.h>
 
@@ -25,6 +26,16 @@ Texture2D init_image(const char* imgsrc) {
     return texture;
 }
 
+void execute_process(ImageBlock ib) {
+    pid_t pid = fork();
+    if(pid == 0) {
+        char* argv[] = {"-L", NULL};
+        execvp("pwd", argv);
+    } else {
+        wait(NULL);
+    }
+}
+
 void redraw(ImageBlock ib) {
     DrawRectangleRec(ib.rect, BLACK);
     DrawTexture(ib.texture, WIDTH/4 - BOXOFFSET/2, HEIGHT/4 - BOXOFFSET/2, WHITE);
@@ -45,11 +56,13 @@ void scale_rect(Rectangle* rect, int should_scale) {
     }
 }
 
-void mouse_input(Rectangle* rect) {
+void mouse_input(ImageBlock* ib) {
+    Rectangle* rect = &(ib->rect);
     Vector2 mouse_pos = GetMousePosition();
     if(CheckCollisionPointRec(mouse_pos, *rect)) {
         scale_rect(rect, 1);
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+           execute_process(*ib);
            drawingIdx++;
            if(drawingIdx> 2) drawingIdx = 0;
         }
@@ -84,7 +97,7 @@ int main(void) {
         {
             ImageBlock* current = ibarr + drawingIdx;
             ClearBackground(RAYWHITE);
-            mouse_input(&(current->rect));
+            mouse_input(current);
             redraw(*current);
         }
         EndDrawing();
