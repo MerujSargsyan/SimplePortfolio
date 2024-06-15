@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 
 #include <raylib.h>
 
@@ -10,11 +11,14 @@
 #define BOXSZ 500
 #define BOXOFFSET 50
 
+#define MAX_PATH_SIZE 50
+
 int drawingIdx = 0;
 
 typedef struct {
     Texture2D texture;
     Rectangle rect;
+    char* jarname;
 } ImageBlock;
 
 Texture2D init_image(const char* imgsrc) {
@@ -29,8 +33,10 @@ Texture2D init_image(const char* imgsrc) {
 void execute_process(ImageBlock ib) {
     pid_t pid = fork();
     if(pid == 0) {
-        char* argv[] = {"-L", NULL};
-        execvp("pwd", argv);
+        char jarp[MAX_PATH_SIZE] = "lib/executables/";
+        strncat(jarp, ib.jarname, strlen(ib.jarname));
+        char* argv[] = {"java", "-jar", jarp, NULL};
+        execvp("java", argv);
     } else {
         wait(NULL);
     }
@@ -80,14 +86,18 @@ int main(void) {
     ImageBlock ib;
     ib.texture = init_image("lib/images/GraphGeneratorImg.png");
     ib.rect = rect;
+    ib.jarname = malloc(sizeof(char) * MAX_PATH_SIZE);
+    strncpy(ib.jarname, "GraphGen.jar", strlen("GraphGen.jar"));
 
     ImageBlock ib2;
     ib2.texture = init_image("lib/images/ClassicGenImg.png");
     ib2.rect = rect;
+    ib2.jarname = "ClassicGen.jar";
 
     ImageBlock ib3;
     ib3.texture = init_image("lib/images/MorseTranslatorImg.png");
     ib3.rect = rect;
+    ib3.jarname = "MorseTranslator.jar";
 
     ImageBlock ibarr[] = {ib, ib2, ib3};
     int idx = 0;
