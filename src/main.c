@@ -69,8 +69,6 @@ void mouse_input(ImageBlock* ib) {
         scale_rect(rect, 1);
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
            execute_process(*ib);
-           drawingIdx++;
-           if(drawingIdx> 2) drawingIdx = 0;
         }
     } else {
         scale_rect(rect, 0);
@@ -85,6 +83,16 @@ ImageBlock generate_image(const char* filename, const char* jarname) {
     ib.jarname = jarname;
 
     return ib;
+}
+
+void key_input() {
+    if(IsKeyPressed(KEY_RIGHT)) {
+        drawingIdx++;
+    } else if(IsKeyPressed(KEY_LEFT)) {
+        drawingIdx--;
+    }
+    if(drawingIdx > 2) drawingIdx = 0;
+    if(drawingIdx < 0) drawingIdx = 2;
 }
 
 int main(void) {
@@ -103,6 +111,7 @@ int main(void) {
             ImageBlock* current = ibarr + drawingIdx;
             ClearBackground(RAYWHITE);
             mouse_input(current);
+            key_input();
             redraw(*current);
         }
         EndDrawing();
