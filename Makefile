@@ -3,5 +3,5 @@ all:
 	cd build && cmake ..
 	cd build && $(MAKE)
 
-run:
+run: all
 	bin/Simple_Portfolio

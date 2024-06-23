@@ -33,9 +33,9 @@ Texture2D init_image(const char* imgsrc) {
 void execute_process(ImageBlock ib) {
     pid_t pid = fork();
     if(pid == 0) {
-        char jarp[MAX_PATH_SIZE] = "lib/executables/";
-        strncat(jarp, ib.jarname, strlen(ib.jarname));
-        char* argv[] = {"java", "-jar", jarp, NULL};
+        char jarpath[MAX_PATH_SIZE] = "lib/executables/";
+        strncat(jarpath, ib.jarname, strlen(ib.jarname));
+        char* argv[] = {"java", "-jar", jarpath, NULL};
         execvp("java", argv);
     } else {
         wait(NULL);
@@ -44,6 +44,7 @@ void execute_process(ImageBlock ib) {
 
 void redraw(ImageBlock ib) {
     DrawRectangleRec(ib.rect, BLACK);
+    // magic numbers here
     DrawTexture(ib.texture, WIDTH/4 - BOXOFFSET/2, HEIGHT/4 - BOXOFFSET/2, WHITE);
 }
 
@@ -62,6 +63,7 @@ void scale_rect(Rectangle* rect, int should_scale) {
     }
 }
 
+// this is my most confusing function, I would love some input
 void mouse_input(ImageBlock* ib) {
     Rectangle* rect = &(ib->rect);
     Vector2 mouse_pos = GetMousePosition();
