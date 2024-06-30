@@ -24,8 +24,9 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 endif()
 
 set(SOURCE_FILES src/main.c)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} )
+
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)
 

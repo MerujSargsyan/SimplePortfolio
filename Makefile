@@ -4,4 +4,7 @@ all:
 	cd build && $(MAKE)
 
 run: all
-	bin/Simple_Portfolio
+	build/bin/Simple_Portfolio
+
+clean:
+	rm -rf build/* bin/*
