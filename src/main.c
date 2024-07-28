@@ -13,12 +13,17 @@
 
 #define MAX_PATH_SIZE 50
 
+#define EXEC_COUNT 4
+#define JAR 1
+#define EXE 2
+
 int drawingIdx = 0;
 
 typedef struct {
     Texture2D texture;
     Rectangle rect;
-    const char* jarname;
+    int type;
+    const char* execname;
 } ImageBlock;
 
 Texture2D init_image(const char* imgsrc) {
@@ -33,10 +38,16 @@ Texture2D init_image(const char* imgsrc) {
 void execute_process(ImageBlock ib) {
     pid_t pid = fork();
     if(pid == 0) {
-        char jarpath[MAX_PATH_SIZE] = "lib/executables/";
-        strncat(jarpath, ib.jarname, strlen(ib.jarname));
-        char* argv[] = {"java", "-jar", jarpath, NULL};
-        execvp("java", argv);
+        char execpath[MAX_PATH_SIZE] = "lib/executables/";
+        strncat(execpath, ib.execname, strlen(ib.execname));
+
+        if(ib.type == JAR) {
+            char* argv[4] = {"java", "-jar", execpath, NULL};
+            execvp("java", argv);
+        } else if(ib.type == EXE) {
+            char* argv[1] = {NULL};
+            execvp(execpath, argv);
+        }
     } else {
         wait(NULL);
     }
@@ -44,7 +55,6 @@ void execute_process(ImageBlock ib) {
 
 void redraw(ImageBlock ib) {
     DrawRectangleRec(ib.rect, BLACK);
-    // magic numbers here
     DrawTexture(ib.texture, WIDTH/4 - BOXOFFSET/2, HEIGHT/4 - BOXOFFSET/2, WHITE);
 }
 
@@ -77,12 +87,12 @@ void mouse_input(ImageBlock* ib) {
     }
 }
 
-ImageBlock generate_image(const char* filename, const char* jarname) {
+ImageBlock generate_image(const char* filename, const char* execname) {
     Rectangle rect = {0,0,0,0};
     ImageBlock ib;
     ib.texture = init_image(filename);
     ib.rect = rect;
-    ib.jarname = jarname;
+    ib.execname = execname;
 
     return ib;
 }
@@ -93,7 +103,7 @@ void key_input() {
     } else if(IsKeyPressed(KEY_LEFT)) {
         drawingIdx--;
     }
-    if(drawingIdx > 3) drawingIdx = 0;
+    if(drawingIdx > EXEC_COUNT - 1) drawingIdx = 0;
     if(drawingIdx < 0) drawingIdx = 2;
 }
 
@@ -102,9 +112,13 @@ int main(void) {
     SetTargetFPS(30);
 
     ImageBlock ib = generate_image("lib/images/GraphGeneratorImg.png", "GraphGen.jar");
+    ib.type = JAR;
     ImageBlock ib2 = generate_image("lib/images/ClassicGenImg.png", "ClassicGen.jar");
+    ib2.type = JAR;
     ImageBlock ib3 = generate_image("lib/images/MorseTranslatorImg.png", "MorseTranslator.jar");
-    ImageBlock ib4 = generate_image("lib/images/GraphGeneratorImg.png", "CellularAutomata");
+    ib3.type = JAR;
+    ImageBlock ib4 = generate_image("lib/images/ClassicGenImg.png", "CellularAutomata");
+    ib4.type = EXE;
 
     ImageBlock ibarr[] = {ib, ib2, ib3, ib4};
 
