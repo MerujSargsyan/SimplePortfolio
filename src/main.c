@@ -93,7 +93,7 @@ void key_input() {
     } else if(IsKeyPressed(KEY_LEFT)) {
         drawingIdx--;
     }
-    if(drawingIdx > 2) drawingIdx = 0;
+    if(drawingIdx > 3) drawingIdx = 0;
     if(drawingIdx < 0) drawingIdx = 2;
 }
 
@@ -104,8 +104,9 @@ int main(void) {
     ImageBlock ib = generate_image("lib/images/GraphGeneratorImg.png", "GraphGen.jar");
     ImageBlock ib2 = generate_image("lib/images/ClassicGenImg.png", "ClassicGen.jar");
     ImageBlock ib3 = generate_image("lib/images/MorseTranslatorImg.png", "MorseTranslator.jar");
+    ImageBlock ib4 = generate_image("lib/images/GraphGeneratorImg.png", "CellularAutomata");
 
-    ImageBlock ibarr[] = {ib, ib2, ib3};
+    ImageBlock ibarr[] = {ib, ib2, ib3, ib4};
 
     while(!WindowShouldClose()) {
         BeginDrawing();
