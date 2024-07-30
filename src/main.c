@@ -117,7 +117,7 @@ int main(void) {
     ib2.type = JAR;
     ImageBlock ib3 = generate_image("lib/images/MorseTranslatorImg.png", "MorseTranslator.jar");
     ib3.type = JAR;
-    ImageBlock ib4 = generate_image("lib/images/ClassicGenImg.png", "CellularAutomata");
+    ImageBlock ib4 = generate_image("lib/images/CellularAutomata.png", "CellularAutomata");
     ib4.type = EXE;
 
     ImageBlock ibarr[] = {ib, ib2, ib3, ib4};
